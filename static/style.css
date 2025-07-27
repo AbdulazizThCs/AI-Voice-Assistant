@@ -1,0 +1,337 @@
+/* ========================================
+   RESET & BASE STYLES
+======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+body {
+    font-family: 'Lateef', serif;
+    font-weight: 500;
+    background-image: url('Background.jpg');
+    background-size: cover;       /* Make background cover entire area */
+    background-position: center;  /* Center the background image */
+    background-repeat: no-repeat; /* Prevent background repetition */
+    background-attachment: fixed; /* Keep background fixed on scroll */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;          /* Center vertically */
+    justify-content: center;      /* Center horizontally */
+    padding: 20px;
+    overflow-x: hidden;           /* Prevent horizontal scroll */
+}
+
+/* ========================================
+   CHAT CONTAINER
+======================================== */
+.chat-container {
+    width: 100%;
+    max-width: 680px;
+    height: 750px;
+    background: #505050;           /* Dark gray background */
+    border-radius: 20px;           /* Rounded corners */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;              /* Hide overflow content */
+}
+
+/* ========================================
+   CHAT HEADER
+======================================== */
+.chat-header {
+    padding: 24px;
+    text-align: center;
+    border-bottom: 3px solid #2d2d2d; /* Dark border at bottom */
+    background: #2d2d2d;                 /* Darker background */
+}
+
+.chat-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #d8d7d7;                  /* Light gray text */
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.5px;
+}
+
+/* ========================================
+   CHAT MESSAGES AREA
+======================================== */
+.chat-messages {
+    flex: 1;                      /* Take remaining vertical space */
+    padding: 24px;
+    overflow-y: auto;             /* Enable vertical scrolling */
+    scroll-behavior: smooth;      /* Smooth scroll effect */
+}
+
+/* Custom scrollbar styles for webkit browsers */
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: #ababab;          /* Scrollbar track color */
+    border-radius: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: #828282;          /* Scrollbar thumb color */
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #707070;          /* Darker thumb on hover */
+}
+
+/* ========================================
+   MESSAGE STRUCTURE
+======================================== */
+.message {
+    display: flex;
+    margin-bottom: 24px;
+    align-items: flex-end;
+    gap: 16px;
+    opacity: 0;                   /* Start hidden */
+    animation: messageSlideIn 0.3s ease-out forwards; /* Slide-in animation */
+}
+
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.user-message {
+    flex-direction: row-reverse;  /* Align user messages to the right */
+}
+
+/* ========================================
+   AVATARS
+======================================== */
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;           /* Circular avatars */
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bot-avatar {
+    background-image: url('./Bot-logo.jpg'); /* Bot avatar image */
+}
+
+.user-avatar {
+    background-image: url('./favicon0.ico'); /* User avatar image */
+}
+
+/* ========================================
+   MESSAGE BUBBLES
+======================================== */
+.message-bubble {
+    background: #f1f3f4;          /* Light background */
+    border-radius: 18px;
+    padding: 10px 14px;
+    max-width: 75%;               /* Limit width */
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Bot message bubble style */
+.bot-message .message-bubble {
+    border-bottom-right-radius: 4px;
+    background: #6a6a6a;          /* Darker bubble */
+}
+
+/* User message bubble style */
+.user-message .message-bubble {
+    border-bottom-left-radius: 4px;
+    background: #c1c1c1;          /* Gray bubble */
+}
+
+/* ========================================
+   MESSAGE CONTENT
+======================================== */
+.message-content {
+    font-size: 22px;
+    line-height: 1.5;
+    color: #292929;               /* Dark text */
+    margin-bottom: 8px;
+    word-wrap: break-word;        /* Break long words */
+}
+
+.message-time {
+    font-size: 18px;
+    color: #292929;
+    text-align: right;
+    margin-top: 6px;
+    font-weight: 300;
+}
+
+.user-message .message-time {
+    text-align: left;             /* Align user time to left */
+}
+
+/* ========================================
+   VOICE INPUT CONTAINER
+======================================== */
+.voice-input-container {
+    padding: 24px;
+    text-align: center;
+    border-top: 3px solid #383838;
+    background: #383838;
+}
+
+/* ========================================
+   VOICE BUTTON
+======================================== */
+.voice-button {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;           /* Circular button */
+    border: none;
+    background: #4a4a4a;          /* Dark gray */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 8px #a3a3a37e;
+}
+
+.voice-button:hover {
+    box-shadow: 0 0 10px rgba(219, 219, 219, 0.733);
+    background: #434343;          /* Darker on hover */
+}
+
+.microphone-icon {
+    width: 32px;
+    height: 32px;
+    color: #cccccc;               /* Light gray icon */
+}
+
+/* ========================================
+   RECORDING STATUS
+======================================== */
+#recordingStatus {
+    font-size: 18px;
+    color: #cccccc;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+======================================== */
+/* Medium devices and smaller */
+@media (max-width: 768px) {
+    body {
+        padding: 12px;
+    }
+    
+    .chat-container {
+        height: 85vh;
+        max-width: 96%;
+        border-radius: 20px;
+    }
+    
+    .chat-header {
+        padding: 20px;
+    }
+    
+    .chat-header h2 {
+        font-size: 20px;
+    }
+    
+    .chat-messages {
+        padding: 20px;
+    }
+    
+    .message {
+        margin-bottom: 20px;
+        gap: 12px;
+    }
+    
+    .avatar {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .message-bubble {
+        max-width: 82%;
+        padding: 14px 18px;
+        border-radius: 18px;
+    }
+    
+    .message-content {
+        font-size: 15px;
+    }
+    
+    .voice-button {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .microphone-icon {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .voice-input-container {
+        padding: 20px;
+    }
+}
+
+/* Small devices */
+@media (max-width: 480px) {
+    .chat-container {
+        max-width: 100%;
+        height: 90vh;
+    }
+    
+    .message-bubble {
+        max-width: 88%;
+        padding: 12px 16px;
+    }
+    
+    .voice-button {
+        width: 64px;
+        height: 64px;
+    }
+    
+    .microphone-icon {
+        width: 26px;
+        height: 26px;
+    }
+}
+
+/* ========================================
+   ACCESSIBILITY ENHANCEMENTS
+======================================== */
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .message {
+        animation: none;
+    }
+    
+    .voice-button.recording {
+        animation: none;
+    }
+    
+    .voice-button.recording .microphone-icon {
+        animation: none;
+    }
+    
+    .voice-button:hover {
+        transform: none;
+    }
+}

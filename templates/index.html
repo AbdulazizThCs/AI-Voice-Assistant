@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Voice Assistant</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon0.ico') }}">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lateef:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="chat-container">
+        <!-- Header section -->
+        <div class="chat-header">
+            <h2>Voice Assistant</h2>
+        </div>
+
+        <!-- Chat messages container -->
+        <div class="chat-messages" id="chatMessages">
+            <!-- Initial bot greeting message -->
+            <div class="message bot-message">
+                <div class="avatar bot-avatar"></div>
+                <div class="message-bubble">
+                    <div class="message-content">مرحباً! اضغط على زر الميكروفون وابدأ الحديث</div>
+                    <div class="message-time">الان</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Voice input button and status -->
+        <div class="voice-input-container">
+            <button id="voiceButton" class="voice-button" aria-label="Start recording">
+                <svg class="microphone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 1a4 4 0 0 0-4 4v6a4 4 0 0 0 8 0V5a4 4 0 0 0-4-4z" />
+                    <path d="M19 10v1a7 7 0 0 1-14 0v-1" />
+                    <line x1="12" y1="19" x2="12" y2="23" />
+                    <line x1="8" y1="23" x2="16" y2="23" />
+                </svg>
+            </button>
+            <p id="recordingStatus">اضغط للتحدث</p>
+        </div>
+    </div>
+
+    <script>
+    // Get DOM elements
+    const chatMessages = document.getElementById('chatMessages');
+    const voiceButton = document.getElementById('voiceButton');
+    const statusText = document.getElementById('recordingStatus');
+
+    // Function to add a message to the chat
+    function addMessage(text, isUser) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+
+        // Get current time formatted in Arabic locale, showing hours and minutes
+        const now = new Date();
+        const time = now.toLocaleTimeString('ar-EG', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        // Insert avatar and message bubble HTML
+        messageDiv.innerHTML = `
+            <div class="avatar ${isUser ? 'user-avatar' : 'bot-avatar'}"></div>
+            <div class="message-bubble">
+                <div class="message-content">${text}</div>
+                <div class="message-time">${time}</div>
+            </div>
+        `;
+
+        // Append the new message to the chat container
+        chatMessages.appendChild(messageDiv);
+
+        // Scroll chat to the latest message
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Async function to send audio request to backend server
+    async function sendToServer() {
+        voiceButton.classList.add('recording');  // Change button style to recording state
+        statusText.textContent = "يتم الآن تحليل الصوت..."; // Update status text
+
+        try {
+            // Send POST request to /process route (server records audio, processes and responds)
+            const res = await fetch('/process', {
+                method: 'POST'
+            });
+
+            // Parse JSON response with user and bot messages
+            const data = await res.json();
+
+            // Display user message and bot reply in chat window
+            addMessage(data.user_text, true);
+            addMessage(data.bot_reply, false);
+
+        } catch (error) {
+            // Show error message if server communication fails
+            addMessage("حدث خطأ في الاتصال بالسيرفر", false);
+        }
+
+        // Reset button and status text after response
+        statusText.textContent = "اضغط للتحدث";
+        voiceButton.classList.remove('recording');
+    }
+
+    // Listen for clicks on the voice button to start the process
+    voiceButton.addEventListener('click', () => {
+        sendToServer();
+    });
+    </script>
+</body>
+</html>
