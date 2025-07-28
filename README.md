@@ -1,4 +1,4 @@
-##AI-Voice-Assistant  
+## AI-Voice-Assistant  
 AI voice assistant that understands and responds instantly .
 
 ## Project Idea
@@ -12,11 +12,11 @@ An intelligent Arabic voice assistant that listens to user speech, generates con
 - Modular and easy-to-extend file structure
 
 ## Project Structure
-`Main.py # Core application logic
- STT.py # Speech-to-text using Faster-Whisper
- NLP.py # Text analysis and response generation using Cohere
- TTS.py # Text-to-speech using ElevenLabs
- templates/index.html # Web frontend (HTML)
+`Main.py # Core application logic  
+ STT.py # Speech-to-text using Faster-Whisper  
+ NLP.py # Text analysis and response generation using Cohere  
+ TTS.py # Text-to-speech using ElevenLabs  
+ templates/index.html # Web frontend (HTML)  
  static/style.css # Styling for the frontend (CSS)`  
 
 ## Used Libraries
