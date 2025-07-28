@@ -14,7 +14,7 @@ An intelligent Arabic voice assistant that listens to user speech, generates con
 ## Project Structure
  `Main.py` # Core application logic  
  
- `STT.py #` Speech-to-text using Faster-Whisper  
+ `STT.py` # Speech-to-text using Faster-Whisper  
  
  `NLP.py` # Text analysis and response generation using Cohere  
  
